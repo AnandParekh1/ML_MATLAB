@@ -1,4 +1,4 @@
-%% All Matlab Code 
+%% Decision Tree and Random Forest for a Binary Classification Task
 %% List of Contents 
 %% 1:Splitting Data into Training and Testing Sets 
 %% 2:Feature Selection
@@ -20,23 +20,22 @@
 
 
 %% 1: Splitting Data into Training and Testing Sets
-% Firstly, time and high blood pressure columns are dropped as discussed in
-% the poster.
+% Time and high blood pressure columns are dropped.
 % Time is not an available attribute when a new patient is admitted to a
 % hospital.
-% The measurement boundary needed for someone to be classified with high blood pressure for 
-% this dataset was not available online, making it an unreproducible measurement
+% The measurement boundary needed for someone to be classified with high blood pressure in 
+% this dataset was not available online, making it an unreproducible
+% measurement.
 
 T = readtable('heart_failure.csv');
 data = removevars(T,{'time', 'high_blood_pressure'});
 
-% There is no external validation set available, therefore, the Heart
-% Failure dataset is randomly split into a testing and a training set
-
-
 %rng for reproducibility.
 rng("default")
-%crossvalind can be used to generate random indices which
+
+%There is no external validation set available, therefore, the Heart
+%Failure dataset is randomly split into a testing and a training set
+%'crossvalind' can be used to generate random indices which
 %can be used to seperate data randomly into two datasets.
 [training,holdout] = crossvalind('Holdout',299,0.3);
 
@@ -60,7 +59,7 @@ rng("default")
 
 mdl = fitglm(X, Y, "Distribution", "binomial");
 FeatureSelectionTable = evalc('mdl');
-% Variables with p values greater than 0.05 were removed, leaving 
+% Variables with p values greater than 0.05 were removed, leaving only
 % age, ejection_fraction, serum_creatinine to be used.
 
 
